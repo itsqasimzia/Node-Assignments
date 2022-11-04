@@ -9,7 +9,6 @@ const generateHash = async (password) => {
   const salt = await bcrypt.genSalt(10);
   // now we set user password to hashed password
   const hash = await bcrypt.hash(password, salt);
-  console.log(hash);
   //   const hash = await bcrypt.hash(password, 12);
   return hash;
 };
@@ -31,7 +30,6 @@ const generateTokens = (user) => {
   const REFRESH_TOKEN = jwt.sign({ user }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "50m",
   });
-  console.log(REFRESH_TOKEN);
 
   return { ACCESS_TOKEN, REFRESH_TOKEN };
 };
@@ -41,7 +39,6 @@ const verifyAccessToken = (token) => {
   try {
     decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   } catch (error) {
-    console.log("jwt verifyAccessToken error ", error.message);
     if (error) {
       decode.error = error.message;
     }
@@ -54,7 +51,6 @@ const verifyRefreshToken = (token) => {
   try {
     decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   } catch (error) {
-    console.log("jwt verifyRefreshToken error message", error.message);
     if (error) {
       decode.error = error.message;
     }
@@ -65,8 +61,6 @@ const verifyRefreshToken = (token) => {
 const isUserAuthenticated = async (req, res, next) => {
   const { authorization } = req.headers;
   const userToken = authorization && authorization.split(" ")[1];
-
-  console.log("user token", userToken);
 
   const verify = verifyAccessToken(userToken);
   if (verify) {

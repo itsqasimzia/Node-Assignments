@@ -16,10 +16,8 @@ const SERVER_PORT = process.env.PORT;
 
 // import modules
 const { authRouter } = require("./routes");
-
 // Routes
 app.get("/", (req, res) => {
-  console.log("home route");
   res.send("Home Route");
 });
 

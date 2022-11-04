@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema;
 
-// function helloName(name) {
-//   console.log(name);
-//   return name;
-// }
-
 const userModel = new UserSchema({
   fullname: {
     type: String,

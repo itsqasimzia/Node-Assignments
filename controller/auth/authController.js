@@ -28,8 +28,6 @@ const userLogin = async (req, res) => {
   }
   const comparePassword = await compareHash(findUser?.password, password);
 
-  console.log(comparePassword);
-
   if (!comparePassword) {
     return res.status(400).send({ message: "password doesnt match " });
   }
@@ -61,7 +59,6 @@ const userRegistration = async (req, res) => {
 
   const hashPassword = await generateHash(password);
 
-  console.log(hashPassword);
   const userModel = new UserModel({
     fullname,
     email,
@@ -112,41 +109,34 @@ const getTodos = async (req, res, next) => {
     const addedTodo = await TodosModel.find({});
     res.status(200).send({ todos: addedTodo });
   } catch (err) {
-    console.log("mongose error ", err);
     res.status(500).send("server error");
   }
 };
 
 const getTodoById = async (req, res) => {
   const { todoid } = req.params;
-  console.log("todoid", todoid);
   const todo = await findSingleTodo(todoid);
 
   res.status(200).send(todo);
 };
 const updateTodo = async (req, res, next) => {
-  console.log("update render", req.body);
   const { todoid } = req.params;
   const todo = await findTodo(todoid);
   if (!todo) {
     return new ErrorClass(404, "todo data is not found");
   }
-  console.log("todoid", req.body);
 
   const updatedTodo = updateTodoDoc(todoid, req.body);
-  res.status(200).send({ error: false, message: "user updated success fully" });
-  // console.log("seahrched user", todo);
+  res.status(200).send({ error: false, message: "Todo updated success fully" });
 };
 const deleteTodo = async (req, res, next) => {
   const { todoid } = req.params;
-  console.log("todoid", todoid);
   const todo = await findTodo(todoid);
   if (!todo) {
     return new ErrorClass(404, "todo data is not found");
   }
   const deletedTodo = await deleteTodoDoc(todoid);
-  res.status(200).send({ error: false, message: "user deleted successfully" });
-  // console.log("seahrched user", todo);
+  res.status(200).send({ error: false, message: "Todo deleted successfully" });
 };
 
 const regenerateToken = (req, res) => {
